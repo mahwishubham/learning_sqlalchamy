@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mx-auto px-2 my-2">
+    <form class="row g-3 align-items-center" action="/add_book" method="POST">
+      <div class="mb-3 col-auto">
+        <label for="isbn" class="form-label"><strong><span>ISBN</span></strong></label>
+        <input type="text" class="form-control" id="isbn" name="isbn" required aria-describedby="ISBN NUMBER">
+      </div>
+      <div class="mb-3 col-auto">
+        <label for="title" class="form-label"><strong><span>Title</span></strong></label>
+        <input type="text" class="form-control" id="title" name="title" required>
+      </div>
+
+      <div class="mb-3 col-auto">
+        <label for="publication_year" class="form-label"><strong><span>Publication Year</span></strong></label>
+        <input type="text" class="form-control" id="publication_year" name="publication_year" required>
+      </div>
+
+      <!-- Wrap the select box and label in a div with 'col-auto' class -->
+      <div class="mb-3 col-auto">
+        <label for="author" class="form-label"><strong><span>Author</span></strong></label>
+        <select class="form-select" aria-label="Select Author Or Add New Author" id="author" name="author_id" required>
+            <option value="" selected disabled>Select an author or add a new one</option>
+            {% for author in authors %}
+            <option value="{{ author.author_id }}">{{ author.name }}</option>
+            {% endfor %}
+            <option value="new">Add New Author</option>
+        </select>
+      </div>
+
+      <div id="new-author" class="col-auto" style="display: none;">
+        <label for="new_author_name">New Author Name:</label>
+        <input type="text" class="form-control" id="new_author_name" name="new_author_name">
+      </div>
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-outline-success" value="Add Book">Submit</button>
+      </div>
+    </form>
+
+</div>
+
+ <script>
+      const authorSelect = document.getElementById("author");
+      const newAuthorDiv = document.getElementById("new-author");
+      const newAuthorInput = document.getElementById("new_author_name");
+
+      authorSelect.addEventListener("change", function() {
+          if (authorSelect.value === "new") {
+              newAuthorDiv.style.display = "block";
+              newAuthorInput.setAttribute("required", "");
+          } else {
+              newAuthorDiv.style.display = "none";
+              newAuthorInput.removeAttribute("required");
+          }
+      });
+  </script>
+
+{% endblock %}

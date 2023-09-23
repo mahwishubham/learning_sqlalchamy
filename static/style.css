@@ -1,0 +1,14 @@
+body {
+    background-image: url('library.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+
+.book-image {
+    width: 200px; /* Set your desired width */
+    height: 300px; /* Set your desired height */
+    object-fit: contain; /* This property ensures the image scales and maintains its aspect ratio within the defined dimensions */
+}
