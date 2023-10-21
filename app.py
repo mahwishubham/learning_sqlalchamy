@@ -122,6 +122,23 @@ def add_book():
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
+@app.route('/search')
+def search():
+    query = request.args.get('query', '').strip()
+    
+    if not query:
+        return redirect(url_for('home'))
+
+    # Use the LIKE operator to perform a case-insensitive search
+    books = Book.query.options(joinedload(Book.author)).filter(
+        Book.title.ilike(f"%{query}%")
+    ).all()
+
+    if not books:
+        return render_template('home.html', message=f"No books found for the query: {query}")
+
+    return render_template('home.html', books=books)
+
 
 # Run the Flask app
 if __name__ == '__main__':
