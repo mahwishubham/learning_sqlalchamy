@@ -54,7 +54,8 @@ def home():
     
     books = books_query.all()
 
-    return render_template('home.html', books=books)
+    message = request.args.get('message')
+    return render_template('home.html', books=books, message=message)
 
 
 @app.route('/add_author', methods=['GET', 'POST'])
@@ -138,6 +139,28 @@ def search():
         return render_template('home.html', message=f"No books found for the query: {query}")
 
     return render_template('home.html', books=books)
+
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+def delete_book(book_id):
+    # Find the book in the database
+    book = Book.query.get(book_id)
+
+    if not book:
+        return redirect(url_for('home'))
+
+    # Check if the author has any other books
+    author = Author.query.get(book.author_id)
+    other_books = Book.query.filter_by(author_id=author.id).all()
+
+    # If there's only one book by the author, delete the author too
+    if len(other_books) == 1:
+        db.session.delete(author)
+
+    # Delete the book
+    db.session.delete(book)
+    db.session.commit()
+
+    return redirect(url_for('home', message="Book deleted successfully!"))
 
 
 # Run the Flask app
