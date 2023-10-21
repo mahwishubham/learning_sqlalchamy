@@ -2,7 +2,7 @@
 import os
 import requests
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from data_models import db, Author, Book
 from dotenv import load_dotenv
@@ -150,7 +150,7 @@ def delete_book(book_id):
 
     # Check if the author has any other books
     author = Author.query.get(book.author_id)
-    other_books = Book.query.filter_by(author_id=author.id).all()
+    other_books = Book.query.filter_by(author_id=author.author_id).all()
 
     # If there's only one book by the author, delete the author too
     if len(other_books) == 1:
