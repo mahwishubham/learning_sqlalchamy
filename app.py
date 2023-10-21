@@ -40,8 +40,19 @@ def get_book_cover(title):
 
 @app.route('/')
 def home():
+    # Get the sorting parameter if provided
+    sort_by = request.args.get('sort_by', 'title')
+    
     # Query all books and load their associated authors
-    books = Book.query.options(joinedload(Book.author)).all()
+    books_query = Book.query.options(joinedload(Book.author))
+    
+    # Apply sorting based on the provided parameter
+    if sort_by == 'title':
+        books_query = books_query.order_by(Book.title.asc())
+    elif sort_by == 'author':
+        books_query = books_query.join(Author).order_by(Author.name.asc())
+    
+    books = books_query.all()
 
     return render_template('home.html', books=books)
 
