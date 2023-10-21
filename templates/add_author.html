@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
+<div class="mx-auto px-2 my-2">
 
-  <form action="/add_author" method="POST">
-  <label for="name">Author Name:</label>
-  <input type="text" id="name" name="name" required><br><br>
+  <form class="row g-3 align-items-center" action="/add_author" method="POST">
+      <div class="mb-3 col-auto">
+        <label for="name" class="form-label"><strong><span>Author Name:</span></strong></label>
+        <input type="text" class="form-control" id="name" name="name" required >
+      </div>
+      <div class="mb-3 col-auto">
+        <label for="birthdate" class="form-label"><strong><span>Birthdate:</span></strong></label>
+        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+      </div>
 
-  <label for="birthdate">Birthdate:</label>
-  <input type="date" id="birthdate" name="birthdate" required><br><br>
-  <label for="date_of_death">Date of Death:</label>
-  <input type="date" id="date_of_death" name="date_of_death"><br><br>
-  <input type="submit" value="Add Author">
-  </form>
+      <div class="mb-3 col-auto">
+        <label for="date_of_death" class="form-label"><strong><span>Date of Death:</span></strong></label>
+        <input type="date" class="form-control" id="date_of_death" name="date_of_death" required>
+      </div>
 
-  </body>
-</html>
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-outline-success" value="Add Author">Submit</button>
+      </div>
+    </form>
+
+</div>
+{% endblock %}

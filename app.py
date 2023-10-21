@@ -105,7 +105,9 @@ def add_book():
             db.session.add(new_book)
             db.session.commit()
 
-            return "Book added successfully!"
+            books = Book.query.options(joinedload(Book.author)).all()
+
+            return render_template('home.html', books=books)
         except Exception as e:
             return f"An error occurred: {str(e)}"
 
